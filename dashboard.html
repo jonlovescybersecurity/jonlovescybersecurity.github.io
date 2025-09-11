@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Tracking Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            background-color: #1e1e2f;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+        }
+        header {
+            background-color: #282a36;
+            padding: 10px;
+            text-align: center;
+        }
+        section {
+            padding: 20px;
+        }
+        .logout {
+            float: right;
+        }
+        .card {
+            background-color: #44475a;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 5px;
+        }
+        .statistics {
+            display: flex;
+            justify-content: space-around;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Email Tracking Dashboard</h1>
+        <a href="/logout" class="logout">Logout <i class="fas fa-sign-out-alt"></i></a>
+    </header>
+    <section>
+        <div class="statistics">
+            <div class="card">
+                <h2>Email Campaign Management</h2>
+                <p>Manage your email campaigns efficiently.</p>
+            </div>
+            <div class="card">
+                <h2>Tracking Pixel Generation</h2>
+                <p>Create tracking pixels for your campaigns.</p>
+            </div>
+            <div class="card">
+                <h2>Real-Time Statistics</h2>
+                <p>Monitor campaign performance in real-time.</p>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
