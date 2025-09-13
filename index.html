@@ -68,8 +68,14 @@
             console.log('Sanitized Email:', sanitizedEmail);
             console.log('Sanitized Password:', sanitizedPassword);
 
-            // Prevent form submission for demonstration purposes
-            return false; // Change to true to allow submission
+            // Basic validation - ensure both fields have content
+            if (sanitizedEmail && sanitizedPassword) {
+                // Navigate to dashboard on successful login
+                window.location.href = 'dashboard.html';
+            }
+
+            // Prevent form submission since we handle navigation manually
+            return false;
         }
     </script>
 </body>
