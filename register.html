@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Registration - CyberSecurity Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+```
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .registration-container {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 40px;
+        width: 100%;
+        max-width: 500px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .logo {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .logo h1 {
+        color: #333;
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+
+    .logo p {
+        color: #666;
+        font-size: 14px;
+    }
+
+    .progress-bar {
+        width: 100%;
+        height: 4px;
+        background: #e1e1e1;
+        border-radius: 2px;
+        margin-bottom: 30px;
+        overflow: hidden;
+    }
+
+    .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #667eea, #764ba2);
+        border-radius: 2px;
+        width: 33%;
+        transition: width 0.3s ease;
+    }
+
+    .step {
+        display: none;
+    }
+
+    .step.active {
+        display: block;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #333;
+        font-weight: 500;
+        font-size: 14px;
+    }
+
+    .required {
+        color: #e74c3c;
+    }
+
+    .form-group input, .form-group select {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #e1e1e1;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        background: #fff;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .form-group input.valid {
+        border-color: #27ae60;
+        background: rgba(39, 174, 96, 0.05);
+    }
+
+    .form-group input.invalid {
+        border-color: #e74c3c;
+        background: rgba(231, 76, 60, 0.05);
+        animation: shake 0.3s ease-in-out;
+    }
+
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        75% { transform: translateX(5px); }
+    }
+
+    .password-toggle {
+        position: absolute;
+        right: 15px;
+        top: 38px;
+        cursor: pointer;
+        color: #666;
+        font-size: 14px;
+        user-select: none;
+    }
+
+    .password-toggle:hover {
+        color: #667eea;
+    }
+
+    .password-strength {
+        margin-top: 8px;
+        height: 6px;
+        background: #e1e1e1;
+        border-radius: 3px;
+        overflow: hidden;
+    }
+
+    .strength-bar {
+        height: 100%;
+        width: 0%;
+        transition: all 0.3s ease;
+        border-radius: 3px;
+    }
+
+    .strength-weak { background: #e74c3c; width: 25%; }
+    .strength-fair { background: #f39c12; width: 50%; }
+    .strength-good { background: #f1c40f; width: 75%; }
+    .strength-strong { background: #27ae60; width: 100%; }
+
+    .password-requirements {
+        margin-top: 10px;
+        font-size: 12px;
+        color: #666;
+    }
+
+    .requirement {
+        display: flex;
+        align-items: center;
+        margin: 5px 0;
+        gap: 8px;
+    }
+
+    .requirement.met {
+        color: #27ae60;
+    }
+
+    .requirement.not-met {
+        color: #e74c3c;
+    }
+
+    .requirement::before {
+        content: "✗";
+        font-weight: bold;
+    }
+
+    .requirement.met::before {
+        content: "✓";
+    }
+
+    .error-message {
+        color: #e74c3c;
+        font-size: 14px;
+        margin-top: 5px;
+        display: none;
+    }
+
+    .success-message {
+        color: #27ae60;
+        font-size: 14px;
+        margin-top: 5px;
+        display: none;
+    }
+
+    .info-message {
+        color: #3498db;
+        font-size: 12px;
+        margin-top: 5px;
+        font-style: italic;
+    }
+
+    .checkbox-group {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        margin: 20px 0;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+        width: auto;
+        margin: 0;
+        margin-top: 3px;
+    }
+
+    .checkbox-group label {
+        font-size: 13px;
+        line-height: 1.4;
+        margin-bottom: 0;
+    }
+
+    .checkbox-group a {
+        color: #667eea;
+        text-decoration: none;
+    }
+
+    .checkbox-group a:hover {
+        text-decoration: underline;
+    }
+
+    .button-group {
+        display: flex;
+        gap: 15px;
+        justify-content: space-between;
+        margin-top: 30px;
+    }
+
+    .btn {
+        padding: 12px 30px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        flex: 1;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-secondary {
+        background: #f8f9fa;
+        color: #333;
+        border: 1px solid #e1e1e1;
+    }
+
+    .btn-secondary:hover {
+        background: #e9ecef;
+    }
+
+    .btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none !important;
+    }
+
+    .captcha-container {
+        margin: 20px 0;
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        border: 1px solid #e1e1e1;
+    }
+
+    .captcha-question {
+        font-size: 14px;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .captcha-input {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    .security-features {
+        margin-top: 25px;
+        padding-top: 20px;
+        border-top: 1px solid #e1e1e1;
+    }
+
+    .security-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+        font-size: 12px;
+        color: #666;
+    }
+
+    .security-item::before {
+        content: "🔒";
+        font-size: 14px;
+    }
+
+    .email-verification-notice {
+        background: #e8f4fd;
+        border: 1px solid #bee5eb;
+        border-radius: 8px;
+        padding: 20px;
+        margin-top: 20px;
+        text-align: center;
+        display: none;
+    }
+
+    .email-verification-notice h3 {
+        color: #0c5460;
+        margin-bottom: 10px;
+    }
+
+    .email-verification-notice p {
+        color: #0c5460;
+        font-size: 14px;
+    }
+
+    .loading {
+        display: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .spinner {
+        width: 20px;
+        height: 20px;
+        border: 2px solid #ffffff;
+        border-top: 2px solid transparent;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .step-indicator {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #666;
+        font-size: 14px;
+    }
+
+    .login-link {
+        text-align: center;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #e1e1e1;
+    }
+
+    .login-link a {
+        color: #667eea;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .login-link a:hover {
+        text-decoration: underline;
+    }
+
+    .duplicate-check {
+        display: inline-block;
+        margin-left: 10px;
+        font-size: 12px;
+    }
+
+    .duplicate-check.checking {
+        color: #f39c12;
+    }
+
+    .duplicate-check.available {
+        color: #27ae60;
+    }
+
+    .duplicate-check.taken {
+        color: #e74c3c;
+    }
+
+    @media (max-width: 480px) {
+        .registration-container {
+            padding: 30px 20px;
+            margin: 10px;
+        }
+        
+        .logo h1 {
+            font-size: 24px;
+        }
+
+        .button-group {
+            flex-direction: column;
+        }
+    }
+</style>
+```
+
+</head>
+<body>
+    <div class="registration-container">
+        <div class="logo">
+            <h1>🔐 SecureRegister</h1>
+            <p>Join the Cybersecurity Hub</p>
+        </div>
+
+```
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <form id="registrationForm">
+        <!-- Step 1: Basic Information -->
+        <div class="step active" id="step1">
+            <div class="step-indicator">Step 1 of 3: Account Information</div>
+            
+            <div class="form-group">
+                <label for="username">Username <span class="required">*</span></label>
+                <input type="text" id="username" name="username" required autocomplete="username">
+                <span class="duplicate-check" id="usernameCheck"></span>
+                <div class="error-message" id="usernameError"></div>
+                <div class="info-message">3-30 characters, letters, numbers, and underscores only</div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address <span class="required">*</span></label>
+                <input type="email" id="email" name="email" required autocomplete="email">
+                <span class="duplicate-check" id="emailCheck"></span>
+                <div class="error-message" id="emailError"></div>
+                <div class="info-message">We'll send a verification link to this email</div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmEmail">Confirm Email Address <span class="required">*</span></label>
+                <input type="email" id="confirmEmail" name="confirmEmail" required>
+                <div class="error-message" id="confirmEmailError"></div>
+            </div>
+        </div>
+
+        <!-- Step 2: Security Information -->
+        <div class="step" id="step2">
+            <div class="step-indicator">Step 2 of 3: Security Setup</div>
+            
+            <div class="form-group">
+                <label for="password">Password <span class="required">*</span></label>
+                <input type="password" id="password" name="password" required autocomplete="new-password">
+                <span class="password-toggle" onclick="togglePassword('password')">👁️</span>
+                <div class="password-strength">
+                    <div class="strength-bar" id="strengthBar"></div>
+                </div>
+                <div class="password-requirements" id="passwordRequirements">
+                    <div class="requirement not-met" id="lengthReq">At least 8 characters</div>
+                    <div class="requirement not-met" id="uppercaseReq">One uppercase letter</div>
+                    <div class="requirement not-met" id="lowercaseReq">One lowercase letter</div>
+                    <div class="requirement not-met" id="numberReq">One number</div>
+                    <div class="requirement not-met" id="specialReq">One special character (!@#$%^&*)</div>
+                </div>
+                <div class="error-message" id="passwordError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password <span class="required">*</span></label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required autocomplete="new-password">
+                <span class="password-toggle" onclick="togglePassword('confirmPassword')">👁️</span>
+                <div class="error-message" id="confirmPasswordError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="securityQuestion">Security Question <span class="required">*</span></label>
+                <select id="securityQuestion" name="securityQuestion" required>
+                    <option value="">Select a security question...</option>
+                    <option value="pet">What was the name of your first pet?</option>
+                    <option value="school">What was the name of your elementary school?</option>
+                    <option value="street">What street did you grow up on?</option>
+                    <option value="mother">What is your mother's maiden name?</option>
+                    <option value="city">In what city were you born?</option>
+                    <option value="book">What is your favorite book?</option>
+                </select>
+                <div class="error-message" id="securityQuestionError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="securityAnswer">Security Answer <span class="required">*</span></label>
+                <input type="text" id="securityAnswer" name="securityAnswer" required>
+                <div class="error-message" id="securityAnswerError"></div>
+                <div class="info-message">This will help you recover your account if needed</div>
+            </div>
+        </div>
+
+        <!-- Step 3: Verification & Terms -->
+        <div class="step" id="step3">
+            <div class="step-indicator">Step 3 of 3: Verification</div>
+            
+            <div class="form-group">
+                <label for="fullName">Full Name <span class="required">*</span></label>
+                <input type="text" id="fullName" name="fullName" required autocomplete="name">
+                <div class="error-message" id="fullNameError"></div>
+            </div>
+
+            <div class="captcha-container">
+                <div class="captcha-question" id="captchaQuestion"></div>
+                <input type="text" class="captcha-input" id="captchaInput" placeholder="Enter answer" required>
+                <div class="error-message" id="captchaError"></div>
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="agreeTerms" name="agreeTerms" required>
+                <label for="agreeTerms">
+                    I agree to the <a href="#" target="_blank">Terms of Service</a> and 
+                    <a href="#" target="_blank">Privacy Policy</a> <span class="required">*</span>
+                </label>
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="agreeNewsletter" name="agreeNewsletter">
+                <label for="agreeNewsletter">
+                    I would like to receive security updates and newsletters
+                </label>
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="confirmInfo" name="confirmInfo" required>
+                <label for="confirmInfo">
+                    I confirm that all information provided is accurate <span class="required">*</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button type="button" class="btn btn-secondary" id="prevBtn" onclick="previousStep()" style="display: none;">Previous</button>
+            <button type="button" class="btn btn-primary" id="nextBtn" onclick="nextStep()">Next</button>
+            <button type="submit" class="btn btn-primary" id="submitBtn" style="display: none;">
+                <span class="button-text">Create Account</span>
+                <div class="loading">
+                    <div class="spinner"></div>
+                </div>
+            </button>
+        </div>
+    </form>
+
+    <div class="email-verification-notice" id="emailVerificationNotice">
+        <h3>📧 Check Your Email</h3>
+        <p>We've sent a verification link to your email address. Please click the link to activate your account.</p>
+    </div>
+
+    <div class="security-features">
+        <div class="security-item">Email verification required</div>
+        <div class="security-item">Password strength enforcement</div>
+        <div class="security-item">Duplicate account protection</div>
+        <div class="security-item">CAPTCHA verification</div>
+        <div class="security-item">Secure data transmission</div>
+    </div>
+
+    <div class="login-link">
+        Already have an account? <a href="#">Sign in here</a>
+    </div>
+</div>
+
+<script>
+    // Configuration
+    const MAX_REGISTRATION_ATTEMPTS = 3;
+    const USERNAME_MIN_LENGTH = 3;
+    const USERNAME_MAX_LENGTH = 30;
+    const PASSWORD_MIN_LENGTH = 8;
+    
+    // State management
+    let currentStep = 1;
+    let registrationAttempts = parseInt(localStorage.getItem('registrationAttempts') || '0');
+    let captchaAnswer = 0;
+    let duplicateCheckTimeouts = {};
+    
+    // Mock database for demo purposes
+    const mockDatabase = {
+        users: ['admin', 'user123', 'cybersec', 'test'],
+        emails: ['admin@test.com', 'user@example.com', 'test@demo.com']
+    };
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+        generateCaptcha();
+        initializeValidation();
+        updateProgress();
+        
+        // Add real-time validation listeners
+        document.getElementById('username').addEventListener('input', debounce(validateAndCheckUsername, 300));
+        document.getElementById('email').addEventListener('input', debounce(validateAndCheckEmail, 300));
+        document.getElementById('confirmEmail').addEventListener('input', validateConfirmEmail);
+        document.getElementById('password').addEventListener('input', validatePassword);
+        document.getElementById('confirmPassword').addEventListener('input', validateConfirmPassword);
+        document.getElementById('fullName').addEventListener('input', validateFullName);
+        document.getElementById('securityAnswer').addEventListener('input', validateSecurityAnswer);
+        document.getElementById('captchaInput').addEventListener('input', validateCaptcha);
+    });
+
+    // Utility functions
+    function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    // Step navigation
+    function nextStep() {
+        if (validateCurrentStep()) {
+            if (currentStep < 3) {
+                currentStep++;
+                updateStepDisplay();
+                updateProgress();
+            }
+        }
+    }
+
+    function previousStep() {
+        if (currentStep > 1) {
+            currentStep--;
+            updateStepDisplay();
+            updateProgress();
+        }
+    }
+
+    function updateStepDisplay() {
+        // Hide all steps
+        document.querySelectorAll('.step').forEach(step => {
+            step.classList.remove('active');
+        });
+        
+        // Show current step
+        document.getElementById(`step${currentStep}`).classList.add('active');
+        
+        // Update buttons
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const submitBtn = document.getElementById('submitBtn');
+        
+        prevBtn.style.display = currentStep > 1 ? 'block' : 'none';
+        
+        if (currentStep === 3) {
+            nextBtn.style.display = 'none';
+            submitBtn.style.display = 'block';
+        } else {
+            nextBtn.style.display = 'block';
+            submitBtn.style.display = 'none';
+        }
+    }
+
+    function updateProgress() {
+        const progress = (currentStep / 3) * 100;
+        document.getElementById('progressFill').style.width = progress + '%';
+    }
+
+    // Validation functions
+    function validateCurrentStep() {
+        switch (currentStep) {
+            case 1:
+                return validateUsername() && validateEmail() && validateConfirmEmail();
+            case 2:
+                return validatePassword() && validateConfirmPassword() && 
+                       validateSecurityQuestion() && validateSecurityAnswer();
+            case 3:
+                return validateFullName() && validateCaptcha() && validateAgreements();
+            default:
+                return false;
+        }
+    }
+
+    function initializeValidation() {
+        // Set up validation for all fields
+        const fields = ['username', 'email', 'confirmEmail', 'password', 
+                      'confirmPassword', 'fullName', 'securityAnswer'];
+        
+        fields.forEach(fieldId => {
+            const field = document.getElementById(fieldId);
+            if (field) {
+                field.addEventListener('blur', () => {
+                    const methodName = `validate${fieldId.charAt(0).toUpperCase() + fieldId.slice(1)}`;
+                    if (typeof window[methodName] === 'function') {
+                        window[methodName]();
+                    }
+                });
+            }
+        });
+    }
+
+    function validateAndCheckUsername() {
+        const isValid = validateUsername();
+        if (isValid) {
+            checkUsernameDuplicate();
+        }
+        return isValid;
+    }
+
+    function validateUsername() {
+        const username = document.getElementById('username').value.trim();
+        const usernameInput = document.getElementById('username');
+        
+        if (username.length < USERNAME_MIN_LENGTH) {
+            showFieldError('username', `Username must be at least ${USERNAME_MIN_LENGTH} characters`);
+            setFieldState(usernameInput, 'invalid');
+            return false;
+        }
+        
+        if (username.length > USERNAME_MAX_LENGTH) {
+            showFieldError('username', `Username must be less than ${USERNAME_MAX_LENGTH} characters`);
+            setFieldState(usernameInput, 'invalid');
+            return false;
+        }
+        
+        if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+            showFieldError('username', 'Username can only contain letters, numbers, and underscores');
+            setFieldState(usernameInput, 'invalid');
+            return false;
+        }
+        
+        clearFieldError('username');
+        setFieldState(usernameInput, 'valid');
+        return true;
+    }
+
+    function checkUsernameDuplicate() {
+        const username = document.getElementById('username').value.trim().toLowerCase();
+        const checkElement = document.getElementById('usernameCheck');
+        
+        if (username.length < USERNAME_MIN_LENGTH) {
+            checkElement.textContent = '';
+            return;
+        }
+        
+        checkElement.className = 'duplicate-check checking';
+        checkElement.textContent = 'Checking availability...';
+        
+        // Simulate API call
+        setTimeout(() => {
+            const isTaken = mockDatabase.users.some(user => user.toLowerCase() === username);
+            
+            if (isTaken) {
+                checkElement.className = 'duplicate-check taken';
+                checkElement.textContent = '❌ Username taken';
+                showFieldError('username', 'This username is already taken');
+                setFieldState(document.getElementById('username'), 'invalid');
+            } else {
+                checkElement.className = 'duplicate-check available';
+                checkElement.textContent = '✅ Available';
+                clearFieldError('username');
+                setFieldState(document.getElementById('username'), 'valid');
+            }
+        }, 1000);
+    }
+
+    function validateAndCheckEmail() {
+        const isValid = validateEmail();
+        if (isValid) {
+            checkEmailDuplicate();
+        }
+        return isValid;
+    }
+
+    function validateEmail() {
+        const email = document.getElementById('email').value.trim();
+        const emailInput = document.getElementById('email');
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        
+        if (!email) {
+            showFieldError('email', 'Email address is required');
+            setFieldState(emailInput, 'invalid');
+            return false;
+        }
+        
+        if (!emailRegex.test(email)) {
+            showFieldError('email', 'Please enter a valid email address');
+            setFieldState(emailInput, 'invalid');
+            return false;
+        }
+        
+        clearFieldError('email');
+        setFieldState(emailInput, 'valid');
+        return true;
+    }
+
+    function checkEmailDuplicate() {
+        const email = document.getElementById('email').value.trim().toLowerCase();
+        const checkElement = document.getElementById('emailCheck');
+        
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            checkElement.textContent = '';
+            return;
+        }
+        
+        checkElement.className = 'duplicate-check checking';
+        checkElement.textContent = 'Checking...';
+        
+        // Simulate API call
+        setTimeout(() => {
+            const isTaken = mockDatabase.emails.some(existingEmail => 
+                existingEmail.toLowerCase() === email);
+            
+            if (isTaken) {
+                checkElement.className = 'duplicate-check taken';
+                checkElement.textContent = '❌ Email registered';
+                showFieldError('email', 'This email is already registered');
+                setFieldState(document.getElementById('email'), 'invalid');
+            } else {
+                checkElement.className = 'duplicate-check available';
+                checkElement.textContent = '✅ Available';
+                clearFieldError('email');
+                setFieldState(document.getElementById('email'), 'valid');
+            }
+        }, 800);
+    }
+
+    function validateConfirmEmail() {
+        const email = document.getElementById('email').value.trim();
+        const confirmEmail = document.getElementById('confirmEmail').value.trim();
+        const confirmEmailInput = document.getElementById('confirmEmail');
+        
+        if (!confirmEmail) {
+            showFieldError('confirmEmail', 'Please confirm your email address');
+            setFieldState(confirmEmailInput, 'invalid');
+            return false;
+        }
+        
+        if (email !== confirmEmail) {
+            showFieldError('confirmEmail', 'Email addresses do not match');
+            setFieldState(confirmEmailInput, 'invalid');
+            return false;
+        }
+        
+        clearFieldError('confirmEmail');
+        setFieldState(confirmEmailInput, 'valid');
+        return true;
+    }
+
+    function validatePassword() {
+        const password = document.getElementById('password').value;
+        const passwordInput = document.getElementById('password');
+        
+        // Check individual requirements
+        const requirements = {
+            length: password.length >= PASSWORD_MIN_LENGTH,
+            uppercase: /[A-Z]/.test(password),
+            lowercase: /[a-z]/.test(password),
+            number: /\d/.test(password),
+            special: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)
+        };
+        
+        // Update requirement indicators
+        updateRequirement('lengthReq', requirements.length);
+        updateRequirement('uppercaseReq', requirements.uppercase);
+        updateRequirement('lowercaseReq', requirements.lowercase);
+        updateRequirement('numberReq', requirements.number);
+        updateRequirement
+```
