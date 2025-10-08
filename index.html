@@ -42,37 +42,90 @@
         button:hover {
             background-color: #4cae4c;
         }
+        .error-message {
+            color: #d9534f;
+            font-size: 14px;
+            margin-top: 10px;
+            display: none;
+        }
+        .register-link {
+            text-align: center;
+            margin-top: 15px;
+        }
+        .register-link a {
+            color: #5cb85c;
+            text-decoration: none;
+        }
+        .register-link a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
     <div class="login-container">
         <h2>Login to Secure Email Tracking System</h2>
         <form id="loginForm" onsubmit="return sanitizeInputs()">
-            <input type="text" id="email" placeholder="Email" required>
-            <input type="password" id="password" placeholder="Password" required>
+            <input type="email" id="email" placeholder="Email" required minlength="5">
+            <input type="password" id="password" placeholder="Password" required minlength="8">
             <button type="submit">Login</button>
         </form>
-        <p>Note: For security, after 5 failed login attempts, your account will be temporarily locked.</p>
+        <div id="errorMessage" class="error-message"></div>
+        <div class="register-link">
+            <p>Don't have an account? <a href="register.html">Register here</a></p>
+        </div>
+        <p style="font-size: 12px; color: #666;">Note: For security, after 5 failed login attempts, your account will be temporarily locked.</p>
     </div>
 
     <script>
         function sanitizeInputs() {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+
+            // Reset error message
+            errorMessage.style.display = 'none';
+            errorMessage.textContent = '';
+
+            // Validate email format
+            const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!emailRegex.test(email)) {
+                errorMessage.textContent = 'Please enter a valid email address.';
+                errorMessage.style.display = 'block';
+                return false;
+            }
+
+            // Validate email minimum length
+            if (email.length < 5) {
+                errorMessage.textContent = 'Email must be at least 5 characters long.';
+                errorMessage.style.display = 'block';
+                return false;
+            }
+
+            // Validate password minimum length
+            if (password.length < 8) {
+                errorMessage.textContent = 'Password must be at least 8 characters long.';
+                errorMessage.style.display = 'block';
+                return false;
+            }
+
+            // Validate password complexity (at least one letter and one number)
+            const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,}$/;
+            if (!passwordRegex.test(password)) {
+                errorMessage.textContent = 'Password must contain at least one letter and one number.';
+                errorMessage.style.display = 'block';
+                return false;
+            }
 
             // Basic sanitization (more robust sanitization should be done on the server side)
-            const sanitizedEmail = email.replace(/[^a-zA-Z0-9@.]/g, '');
+            const sanitizedEmail = email.replace(/[^a-zA-Z0-9@._-]/g, '');
             const sanitizedPassword = password.replace(/[^a-zA-Z0-9!@#$%^&*]/g, '');
 
-            // You can further process the sanitized inputs as needed
+            // Log sanitized inputs for debugging
             console.log('Sanitized Email:', sanitizedEmail);
             console.log('Sanitized Password:', sanitizedPassword);
 
-            // Basic validation - ensure both fields have content
-            if (sanitizedEmail && sanitizedPassword) {
-                // Navigate to dashboard on successful login
-                window.location.href = 'dashboard.html';
-            }
+            // Navigate to dashboard on successful validation
+            window.location.href = 'dashboard.html';
 
             // Prevent form submission since we handle navigation manually
             return false;
